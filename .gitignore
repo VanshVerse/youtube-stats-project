@@ -1,0 +1,15 @@
+# Python
+venv/
+__pycache__/
+*.pyc
+
+# Editor
+.vscode/
+
+# Dataset files (download separately — see README)
+*.csv
+*.json
+
+# Local generated outputs (script writes these to the project root when run;
+# sample copies are kept in outputs/ and ARE tracked)
+/output_*.png
