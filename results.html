@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>YouTube Trending Video Analysis — Results</title>
+<style>
+  :root {
+    --dark:#1A0F2E; --card:#2B1B4A; --card2:#241640; --border:#4A3170;
+    --gold:#D4AF37; --gold-light:#F0D77B; --gray:#A99BC4; --lgray:#D9CFEC; --white:#FFF;
+    box-sizing:border-box; padding-top:env(safe-area-inset-top,0px); padding-bottom:env(safe-area-inset-bottom,0px);
+  }
+  html{scroll-padding-top:env(safe-area-inset-top,0px);} *{box-sizing:border-box;}
+  body{margin:0;background:radial-gradient(circle at 20% 0%,#2D1B52 0%,#1A0F2E 55%);color:var(--white);
+    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Calibri,Roboto,sans-serif;padding:40px 20px 70px;}
+  .wrap{max-width:900px;margin:0 auto;}
+  .eyebrow{color:var(--gold);font-size:13px;font-weight:700;letter-spacing:2.5px;text-transform:uppercase;margin-bottom:10px;}
+  h1{font-family:Cambria,Georgia,serif;font-size:clamp(28px,5vw,42px);margin:0 0 10px;line-height:1.15;
+    background:linear-gradient(90deg,#F0D77B,#D4AF37 60%);-webkit-background-clip:text;background-clip:text;color:transparent;}
+  .subtitle{color:var(--lgray);font-size:15px;margin-bottom:30px;max-width:600px;line-height:1.5;}
+  .step-num{display:inline-flex;align-items:center;justify-content:center;width:32px;height:32px;border-radius:50%;
+    background:var(--gold);color:#241640;font-weight:700;font-size:14px;margin-right:12px;flex-shrink:0;}
+  .section{margin-top:44px;}
+  .section-head{display:flex;align-items:center;margin-bottom:6px;}
+  .section-title{font-family:Cambria,Georgia,serif;font-size:22px;font-weight:700;}
+  .section-desc{color:var(--gray);font-size:13.5px;margin:6px 0 18px 44px;}
+  .card{background:var(--card);border:1px solid var(--border);border-radius:8px;padding:24px;margin-bottom:14px;}
+  .flow{display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .flow-card{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:16px 20px;flex:1;min-width:140px;text-align:center;}
+  .flow-card.final{background:linear-gradient(135deg,#3D2470,#2B1B4A);border-color:var(--gold);}
+  .flow-num{font-family:Cambria,Georgia,serif;font-size:24px;font-weight:700;color:var(--gold);}
+  .flow-label{font-size:11.5px;color:var(--gray);margin-top:4px;}
+  .flow-arrow{color:var(--gray);font-size:20px;}
+  table{width:100%;border-collapse:collapse;margin-top:6px;}
+  th{background:var(--card2);color:var(--gold-light);font-size:12px;text-transform:uppercase;letter-spacing:0.5px;
+    padding:10px 12px;text-align:center;border:1px solid var(--border);}
+  th:first-child{text-align:left;}
+  td{padding:10px 12px;text-align:center;border:1px solid var(--border);font-size:13.5px;color:var(--lgray);}
+  td:first-child{text-align:left;color:var(--white);font-weight:600;}
+  .stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:12px;}
+  .stat-card{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:18px;}
+  .stat-num{font-family:Cambria,Georgia,serif;font-size:26px;font-weight:700;color:var(--gold);margin-bottom:4px;}
+  .stat-label{font-size:10.5px;font-weight:700;letter-spacing:1px;text-transform:uppercase;color:var(--lgray);margin-bottom:4px;}
+  .stat-desc{font-size:11.5px;color:var(--gray);line-height:1.35;}
+  .bar-row{display:flex;align-items:center;gap:12px;margin-bottom:10px;}
+  .bar-label{width:130px;font-size:12.5px;color:var(--lgray);flex-shrink:0;}
+  .bar-track{flex:1;background:var(--card2);border-radius:20px;height:20px;overflow:hidden;}
+  .bar-fill{height:100%;background:linear-gradient(90deg,#D4AF37,#F0D77B);border-radius:20px;}
+  .bar-pct{width:50px;text-align:right;font-size:12.5px;color:var(--gold-light);font-weight:600;flex-shrink:0;}
+  .test-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+  @media (max-width:640px){.test-grid{grid-template-columns:1fr;}}
+  .test-card{background:var(--card2);border:1px solid var(--border);border-radius:8px;padding:20px;}
+  .test-tag{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold);margin-bottom:8px;}
+  .test-q{font-size:14.5px;font-weight:600;margin-bottom:14px;}
+  .test-stat{font-family:Cambria,Georgia,serif;font-size:26px;font-weight:700;margin-bottom:4px;}
+  .test-p{font-size:13px;color:var(--gray);margin-bottom:12px;}
+  .test-result{background:var(--gold);color:#241640;font-size:12px;font-weight:700;padding:8px 12px;border-radius:6px;}
+  .formula-card{background:var(--card2);border:1px solid var(--border);border-left:3px solid var(--gold);border-radius:8px;padding:18px 22px;}
+  .formula-label{font-size:11px;font-weight:700;letter-spacing:1.5px;text-transform:uppercase;color:var(--gold-light);margin-bottom:8px;}
+  .formula{font-family:"Courier New",monospace;font-size:13.5px;color:var(--white);overflow-x:auto;white-space:nowrap;}
+  .findings{list-style:none;padding:0;margin:0;}
+  .findings li{display:flex;gap:12px;padding:10px 0;border-bottom:1px solid var(--border);font-size:13.5px;color:var(--lgray);line-height:1.5;}
+  .findings li:last-child{border-bottom:none;}
+  .findings .dot{color:var(--gold);flex-shrink:0;}
+  .foot{text-align:center;color:var(--gray);font-size:12px;margin-top:50px;}
+</style>
+</head>
+<body>
+<div class="wrap">
+  <div class="eyebrow">Probability & Statistics Project</div>
+  <h1>Analysis Results</h1>
+  <p class="subtitle">Full statistical analysis of YouTube trending videos (India) — descriptive statistics, probability, hypothesis testing, and a prediction model.</p>
+
+  <!-- STEP 1-2 -->
+  <div class="section">
+    <div class="section-head"><span class="step-num">1</span><span class="section-title">Data Loading & Preprocessing</span></div>
+    <div class="section-desc">Source: Kaggle — Trending YouTube Video Statistics (India region)</div>
+    <div class="card">
+      <div class="flow">
+        <div class="flow-card"><div class="flow-num">37,352</div><div class="flow-label">Raw records loaded</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-card"><div class="flow-num">21,045</div><div class="flow-label">Duplicates removed</div></div>
+        <div class="flow-arrow">→</div>
+        <div class="flow-card final"><div class="flow-num">16,307</div><div class="flow-label">Final cleaned dataset</div></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 3 -->
+  <div class="section">
+    <div class="section-head"><span class="step-num">2</span><span class="section-title">Descriptive Statistics</span></div>
+    <div class="section-desc">Summary statistics for the key engagement variables</div>
+    <div class="card">
+      <table>
+        <tr><th>Metric</th><th>Views</th><th>Likes</th><th>Dislikes</th><th>Comments</th></tr>
+        <tr><td>Mean</td><td>6,83,530</td><td>14,440</td><td>957</td><td>1,482</td></tr>
+        <tr><td>Median</td><td>2,05,488</td><td>1,744</td><td>194</td><td>195</td></tr>
+        <tr><td>Std. Dev.</td><td>23,63,033</td><td>66,871</td><td>12,643</td><td>10,409</td></tr>
+        <tr><td>Maximum</td><td>12.5 Cr</td><td>29.1 L</td><td>15.4 L</td><td>8.1 L</td></tr>
+      </table>
+    </div>
+    <div class="card">
+      <table>
+        <tr><th>Correlation</th><th>Views</th><th>Likes</th><th>Dislikes</th><th>Comments</th></tr>
+        <tr><td>Views</td><td>1.00</td><td>0.84</td><td>0.58</td><td>0.67</td></tr>
+        <tr><td>Likes</td><td>0.84</td><td>1.00</td><td>0.51</td><td>0.76</td></tr>
+        <tr><td>Dislikes</td><td>0.58</td><td>0.51</td><td>1.00</td><td>0.70</td></tr>
+        <tr><td>Comments</td><td>0.67</td><td>0.76</td><td>0.70</td><td>1.00</td></tr>
+      </table>
+    </div>
+  </div>
+
+  <!-- STEP 4 -->
+  <div class="section">
+    <div class="section-head"><span class="step-num">3</span><span class="section-title">Probability Analysis</span></div>
+    <div class="section-desc">Shapiro-Wilk normality test (log-views): statistic = 0.989, p-value &lt; 0.001 — closer to Normal than raw views</div>
+    <div class="card">
+      <div class="bar-row"><div class="bar-label">Entertainment</div><div class="bar-track"><div class="bar-fill" style="width:46.5%"></div></div><div class="bar-pct">46.5%</div></div>
+      <div class="bar-row"><div class="bar-label">News & Politics</div><div class="bar-track"><div class="bar-fill" style="width:15.4%"></div></div><div class="bar-pct">15.4%</div></div>
+      <div class="bar-row"><div class="bar-label">People & Blogs</div><div class="bar-track"><div class="bar-fill" style="width:7.6%"></div></div><div class="bar-pct">7.6%</div></div>
+      <div class="bar-row"><div class="bar-label">Music</div><div class="bar-track"><div class="bar-fill" style="width:7.5%"></div></div><div class="bar-pct">7.5%</div></div>
+      <div class="bar-row" style="margin-bottom:0"><div class="bar-label">Comedy</div><div class="bar-track"><div class="bar-fill" style="width:6.9%"></div></div><div class="bar-pct">6.9%</div></div>
+    </div>
+  </div>
+
+  <!-- STEP 5 -->
+  <div class="section">
+    <div class="section-head"><span class="step-num">4</span><span class="section-title">Hypothesis Testing</span></div>
+    <div class="section-desc">Testing whether category and upload timing significantly affect views</div>
+    <div class="test-grid">
+      <div class="test-card">
+        <div class="test-tag">ANOVA Test</div>
+        <div class="test-q">Do views differ across categories?</div>
+        <div class="test-stat">F = 305.76</div>
+        <div class="test-p">p-value &lt; 0.001</div>
+        <div class="test-result">Reject H₀ — category significantly affects views</div>
+      </div>
+      <div class="test-card">
+        <div class="test-tag">Independent T-Test</div>
+        <div class="test-q">Weekday vs. weekend uploads?</div>
+        <div class="test-stat">t = 2.66</div>
+        <div class="test-p">p-value = 0.0078</div>
+        <div class="test-result">Reject H₀ — publish timing significantly affects views</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- STEP 6 -->
+  <div class="section">
+    <div class="section-head"><span class="step-num">5</span><span class="section-title">Prediction Model</span></div>
+    <div class="section-desc">Multiple Linear Regression — predicting views from likes, dislikes & comment count</div>
+    <div class="stat-grid" style="margin-bottom:14px;">
+      <div class="stat-card"><div class="stat-label">R² Score</div><div class="stat-num">0.574</div><div class="stat-desc">57.4% of variance in views explained</div></div>
+      <div class="stat-card"><div class="stat-label">RMSE</div><div class="stat-num">10.9L</div><div class="stat-desc">Typical prediction error, in views</div></div>
+      <div class="stat-card"><div class="stat-label">MAE</div><div class="stat-num">4.2L</div><div class="stat-desc">Average absolute error, in views</div></div>
+    </div>
+    <div class="formula-card">
+      <div class="formula-label">Regression Equation</div>
+      <div class="formula">Views ≈ 29.14 × Likes + 49.82 × Dislikes − 33.73 × Comments + 2,67,755</div>
+    </div>
+  </div>
+
+  <!-- STEP 7 -->
+  <div class="section">
+    <div class="section-head"><span class="step-num">6</span><span class="section-title">Key Findings</span></div>
+    <div class="card">
+      <ul class="findings">
+        <li><span class="dot">◆</span> Views are heavily right-skewed — a small number of videos go viral while most stay modest.</li>
+        <li><span class="dot">◆</span> Likes show the strongest correlation with views (r = 0.84) among all engagement metrics.</li>
+        <li><span class="dot">◆</span> Category significantly affects views (ANOVA, p &lt; 0.001) — Entertainment dominates trending videos.</li>
+        <li><span class="dot">◆</span> Weekday vs. weekend upload timing shows a statistically significant difference in views.</li>
+        <li><span class="dot">◆</span> The regression model explains 57.4% of the variance in views using only engagement metrics.</li>
+      </ul>
+    </div>
+  </div>
+
+  <div class="foot">YouTube Trending Video Analysis — Probability & Statistics Course Project</div>
+</div>
+</body>
+</html>
