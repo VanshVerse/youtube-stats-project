@@ -1,3 +1,6 @@
+
+
+Youtube views predictor royal · HTML
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -6,11 +9,14 @@
 <title>YouTube Views Predictor</title>
 <style>
   :root {
-    --dark: #17181C;
-    --card: #222327;
-    --red: #E13B32;
-    --gray: #9C9DA3;
-    --light-gray: #C7C8CC;
+    --dark: #1A0F2E;
+    --card: #2B1B4A;
+    --card2: #241640;
+    --gold: #D4AF37;
+    --gold-light: #F0D77B;
+    --purple: #6B3FA0;
+    --gray: #A99BC4;
+    --light-gray: #D9CFEC;
     --white: #FFFFFF;
     box-sizing: border-box;
     padding-top: env(safe-area-inset-top, 0px);
@@ -20,37 +26,42 @@
   * { box-sizing: border-box; }
   body {
     margin: 0;
-    background: var(--dark);
+    background: radial-gradient(circle at 20% 0%, #2D1B52 0%, #1A0F2E 55%);
     color: var(--white);
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Calibri, Roboto, sans-serif;
     min-height: 100%;
     padding: 40px 20px 60px;
   }
-  .wrap { max-width: 720px; margin: 0 auto; }
+  .wrap { max-width: 760px; margin: 0 auto; }
   .eyebrow {
-    color: var(--red);
+    color: var(--gold);
     font-size: 13px;
     font-weight: 700;
-    letter-spacing: 2px;
+    letter-spacing: 2.5px;
     text-transform: uppercase;
     margin-bottom: 10px;
   }
   h1 {
     font-family: Cambria, Georgia, serif;
-    font-size: clamp(28px, 5vw, 40px);
+    font-size: clamp(28px, 5vw, 42px);
     margin: 0 0 10px;
     line-height: 1.15;
+    background: linear-gradient(90deg, #F0D77B, #D4AF37 60%);
+    -webkit-background-clip: text;
+    background-clip: text;
+    color: transparent;
   }
   .subtitle {
     color: var(--light-gray);
     font-size: 15px;
     margin-bottom: 32px;
-    max-width: 560px;
+    max-width: 580px;
     line-height: 1.5;
   }
   .card {
     background: var(--card);
-    border-radius: 4px;
+    border: 1px solid #4A3170;
+    border-radius: 8px;
     padding: 28px;
     margin-bottom: 20px;
   }
@@ -60,33 +71,33 @@
     display: block;
     font-size: 13px;
     font-weight: 600;
-    color: var(--light-gray);
+    color: var(--gold-light);
     margin-bottom: 8px;
   }
   input[type="number"] {
     width: 100%;
-    background: #17181C;
-    border: 1px solid #33343A;
-    border-radius: 4px;
+    background: var(--dark);
+    border: 1px solid #4A3170;
+    border-radius: 6px;
     color: var(--white);
     font-size: 18px;
     padding: 12px 14px;
     outline: none;
     font-family: inherit;
   }
-  input[type="number"]:focus { border-color: var(--red); }
+  input[type="number"]:focus { border-color: var(--gold); }
   input[type="range"] {
     width: 100%;
-    accent-color: var(--red);
+    accent-color: var(--gold);
     margin-top: 8px;
   }
   .range-row { display: flex; justify-content: space-between; font-size: 12px; color: var(--gray); margin-top: 4px; }
   button {
     width: 100%;
-    background: var(--red);
-    color: var(--white);
+    background: linear-gradient(90deg, #D4AF37, #F0D77B);
+    color: #241640;
     border: none;
-    border-radius: 4px;
+    border-radius: 6px;
     padding: 16px;
     font-size: 16px;
     font-weight: 700;
@@ -97,9 +108,10 @@
   }
   button:active { opacity: 0.85; }
   .result-card {
-    background: var(--red);
-    border-radius: 4px;
-    padding: 28px;
+    background: linear-gradient(135deg, #3D2470, #2B1B4A);
+    border: 1px solid var(--gold);
+    border-radius: 8px;
+    padding: 32px;
     text-align: center;
     display: none;
   }
@@ -109,41 +121,92 @@
     font-weight: 700;
     letter-spacing: 2px;
     text-transform: uppercase;
-    color: #FFE4E1;
+    color: var(--gold-light);
     margin-bottom: 8px;
   }
   .result-number {
     font-family: Cambria, Georgia, serif;
-    font-size: clamp(32px, 8vw, 52px);
+    font-size: clamp(36px, 9vw, 58px);
     font-weight: 700;
     margin: 4px 0 10px;
+    color: var(--white);
   }
-  .result-sub { font-size: 13px; color: #FFE4E1; }
-  .note {
-    background: var(--card);
-    border-radius: 4px;
-    padding: 18px 22px;
-    font-size: 12.5px;
+  .result-sub { font-size: 14px; color: var(--gold-light); }
+ 
+  .section-title {
+    font-family: Cambria, Georgia, serif;
+    font-size: 22px;
+    font-weight: 700;
+    color: var(--white);
+    margin: 40px 0 4px;
+  }
+  .section-desc {
     color: var(--gray);
-    line-height: 1.6;
+    font-size: 13.5px;
+    margin-bottom: 18px;
   }
-  .note b { color: var(--light-gray); }
+  .stat-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 14px;
+    margin-bottom: 18px;
+  }
+  .stat-card {
+    background: var(--card2);
+    border: 1px solid #4A3170;
+    border-radius: 8px;
+    padding: 20px;
+  }
+  .stat-num {
+    font-family: Cambria, Georgia, serif;
+    font-size: 30px;
+    font-weight: 700;
+    color: var(--gold);
+    margin-bottom: 6px;
+  }
+  .stat-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--light-gray);
+    margin-bottom: 6px;
+  }
+  .stat-desc {
+    font-size: 12px;
+    color: var(--gray);
+    line-height: 1.4;
+  }
+  .formula-card {
+    background: var(--card2);
+    border: 1px solid #4A3170;
+    border-left: 3px solid var(--gold);
+    border-radius: 8px;
+    padding: 22px 24px;
+    margin-bottom: 18px;
+  }
+  .formula-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 1.5px;
+    text-transform: uppercase;
+    color: var(--gold-light);
+    margin-bottom: 10px;
+  }
   .formula {
     font-family: "Courier New", monospace;
-    background: #17181C;
-    padding: 10px 12px;
-    border-radius: 4px;
-    font-size: 12px;
-    color: var(--light-gray);
-    margin-top: 10px;
+    font-size: 14.5px;
+    color: var(--white);
+    line-height: 1.7;
     overflow-x: auto;
     white-space: nowrap;
   }
   .warn {
-    font-size: 11.5px;
+    font-size: 12px;
     color: var(--gray);
-    margin-top: 16px;
+    margin-top: 22px;
     text-align: center;
+    line-height: 1.6;
   }
 </style>
 </head>
@@ -156,7 +219,7 @@
     Regression model trained on 16,307 trending YouTube videos (India) to estimate
     the likely view count.
   </p>
-
+ 
   <div class="card">
     <div class="field">
       <label for="likes">👍 Likes</label>
@@ -178,32 +241,51 @@
     </div>
     <button onclick="predict()">Predict Views</button>
   </div>
-
+ 
   <div class="result-card" id="resultCard">
     <div class="result-label">Predicted Views</div>
     <div class="result-number" id="resultNumber">0</div>
     <div class="result-sub" id="resultSub"></div>
   </div>
-
-  <div style="height:20px"></div>
-
-  <div class="note">
-    <b>Model:</b> Multiple Linear Regression &nbsp;|&nbsp; <b>R² = 0.574</b> (explains 57.4% of the variance in views)
-    <div class="formula">Views ≈ 29.14×Likes + 49.82×Dislikes − 33.73×Comments + 2,67,755</div>
+ 
+  <div class="section-title">About the Model</div>
+  <div class="section-desc">Performance metrics from the trained regression model, evaluated on a held-out test set.</div>
+ 
+  <div class="stat-grid">
+    <div class="stat-card">
+      <div class="stat-label">R² Score</div>
+      <div class="stat-num">0.574</div>
+      <div class="stat-desc">57.4% of the variance in views is explained by the model</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">RMSE</div>
+      <div class="stat-num">10.9L</div>
+      <div class="stat-desc">Typical magnitude of prediction error, in views</div>
+    </div>
+    <div class="stat-card">
+      <div class="stat-label">MAE</div>
+      <div class="stat-num">4.2L</div>
+      <div class="stat-desc">Average absolute prediction error, in views</div>
+    </div>
   </div>
-
+ 
+  <div class="formula-card">
+    <div class="formula-label">Regression Equation</div>
+    <div class="formula">Views ≈ 29.14 × Likes + 49.82 × Dislikes − 33.73 × Comments + 2,67,755</div>
+  </div>
+ 
   <div class="warn">
     This is a statistical estimate based on historical trends, not a guarantee — actual views
     depend on many factors outside this model (content quality, channel size, promotion, etc.)
   </div>
 </div>
-
+ 
 <script>
   const COEF_LIKES = 29.13611505402127;
   const COEF_DISLIKES = 49.816809192234736;
   const COEF_COMMENTS = -33.72591607914921;
   const INTERCEPT = 267755.48;
-
+ 
   function syncPair(numId, rangeId) {
     const num = document.getElementById(numId);
     const range = document.getElementById(rangeId);
@@ -217,7 +299,7 @@
   syncPair('likes', 'likesRange');
   syncPair('dislikes', 'dislikesRange');
   syncPair('comments', 'commentsRange');
-
+ 
   function formatIndian(num) {
     num = Math.round(num);
     const isNeg = num < 0;
@@ -229,28 +311,29 @@
     let formatted = rest.replace(/\B(?=(\d{2})+(?!\d))/g, ',') + last3;
     return (isNeg ? '-' : '') + formatted;
   }
-
+ 
   function predict() {
     const likes = Number(document.getElementById('likes').value) || 0;
     const dislikes = Number(document.getElementById('dislikes').value) || 0;
     const comments = Number(document.getElementById('comments').value) || 0;
-
+ 
     let predicted = INTERCEPT + COEF_LIKES * likes + COEF_DISLIKES * dislikes + COEF_COMMENTS * comments;
     if (predicted < 0) predicted = 0;
-
+ 
     document.getElementById('resultNumber').textContent = formatIndian(predicted);
-
+ 
     let subtext = '';
     if (predicted >= 10000000) subtext = (predicted / 10000000).toFixed(2) + ' Crore views (estimated)';
     else if (predicted >= 100000) subtext = (predicted / 100000).toFixed(2) + ' Lakh views (estimated)';
     else subtext = 'estimated views';
     document.getElementById('resultSub').textContent = subtext;
-
+ 
     document.getElementById('resultCard').classList.add('show');
   }
-
+ 
   // Run once on load with default values
   predict();
 </script>
 </body>
 </html>
+ 
