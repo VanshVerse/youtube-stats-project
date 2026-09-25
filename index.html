@@ -208,6 +208,25 @@ Youtube views predictor royal · HTML
     text-align: center;
     line-height: 1.6;
   }
+
+
+    .results-link {
+    display: inline-block;
+    margin-top: 18px;
+    color: #241640;
+    background: rgba(255,255,255,0.25);
+    padding: 10px 20px;
+    border-radius: 6px;
+    text-decoration: none;
+    font-size: 13px;
+    font-weight: 700;
+    letter-spacing: 0.5px;
+  }
+  .results-link:hover {
+    background: rgba(255,255,255,0.4);
+  }
+
+
 </style>
 </head>
 <body>
@@ -241,12 +260,19 @@ Youtube views predictor royal · HTML
     </div>
     <button onclick="predict()">Predict Views</button>
   </div>
- 
-  <div class="result-card" id="resultCard">
+
+    <div class="result-card" id="resultCard">
     <div class="result-label">Predicted Views</div>
     <div class="result-number" id="resultNumber">0</div>
     <div class="result-sub" id="resultSub"></div>
+    <a href="results.html" class="results-link">View Full Analysis & Results →</a>
   </div>
+ 
+  <!-- <div class="result-card" id="resultCard">
+    <div class="result-label">Predicted Views</div>
+    <div class="result-number" id="resultNumber">0</div>
+    <div class="result-sub" id="resultSub"></div>
+  </div> -->
  
   <div class="section-title">About the Model</div>
   <div class="section-desc">Performance metrics from the trained regression model, evaluated on a held-out test set.</div>
